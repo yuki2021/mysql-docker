@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  mysql:
+    platform: 'linux/amd64'
+    image: mysql:latest
+    hostname: my-mysql
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sakila
+      TZ: "Asia/Tokyo"
+      BIND-ADDRESS: 0.0.0.0
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    networks:
+      - sample-network
+
+networks:
+    sample-network:
+        name: sample-network
+        external: true
